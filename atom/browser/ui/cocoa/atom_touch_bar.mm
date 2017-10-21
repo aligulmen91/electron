@@ -667,4 +667,31 @@ static NSString* const ImageScrubberItemIdentifier = @"scrubber.image.item";
   return itemView;
 }
 
+- (NSSize)scrubber:(NSScrubber *)scrubber layout:(NSScrubberFlowLayout *)layout sizeForItemAtIndex:(NSInteger)itemIndex
+{
+  std::string s_id([[scrubber identifier] UTF8String]);
+  if (![self hasItemWithID:s_id]) return NSMakeSize(50, 30);
+
+  mate::PersistentDictionary settings = settings_[s_id];
+  std::vector<mate::PersistentDictionary> items;
+  if (!settings.Get("items", &items)) return NSMakeSize(50, 30);
+
+  if (itemIndex >= static_cast<NSInteger>(items.size())) return NSMakeSize(50, 30);
+
+  mate::PersistentDictionary item = items[itemIndex];
+
+  std::string title;
+
+  item.Get("label", &title);
+
+  NSSize size = NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX);
+  NSRect textRect = [base::SysUTF8ToNSString(title) boundingRectWithSize:size
+                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                        attributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:0]}];
+
+  NSInteger width = textRect.size.width + 15;
+
+  return NSMakeSize(width, 30);
+}
+
 @end
