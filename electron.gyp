@@ -1,10 +1,10 @@
 {
   'variables': {
-    'project_name%': 'electron',
+    'project_name%': 'dashersw',
     'product_name%': 'Electron',
-    'company_name%': 'GitHub, Inc',
-    'company_abbr%': 'github',
-    'version%': '1.8.2-beta.1',
+    'company_name%': 'Armagan Amcalar',
+    'company_abbr%': 'dashersw',
+    'version%': '1.8.3',
     'js2c_input_dir': '<(SHARED_INTERMEDIATE_DIR)/js2c',
   },
   'includes': [
